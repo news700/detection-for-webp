@@ -1,0 +1,66 @@
+<script type="text/javascript" src="js/webpjs.js"></script>
+<script>
+// (function() {
+// 		var WebP = new Image();
+// 		WebP.onload = WebP.onerror = function() {
+// 			if (WebP.height != 2) {
+// 				var sc = document.createElement('script');
+// 				sc.type = 'text/javascript';
+// 				sc.async = true;
+// 				var s = document.getElementsByTagName('script')[0];
+// 				sc.src='js/webpjs.js';
+// 				s.parentNode.insertBefore(sc, s);
+// 			}
+// 		};
+// 		WebP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+// 	}
+// )();
+
+function check_webp_feature(feature, callback) {
+	var kTestImages = {
+		lossy: 'UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA',
+		lossless: 'UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==',
+		alpha: 'UklGRkoAAABXRUJQVlA4WAoAAAAQAAAAAAAAAAAAQUxQSAwAAAARBxAR/Q9ERP8DAABWUDggGAAAABQBAJ0BKgEAAQAAAP4AAA3AAP7mtQAAAA==',
+		animation: 'UklGRlIAAABXRUJQVlA4WAoAAAASAAAAAAAAAAAAQU5JTQYAAAD/////AABBTk1GJgAAAAAAAAAAAAAAAAAAAGQAAABWUDhMDQAAAC8AAAAQBxAREYiI/gcA'
+	};
+	var img = new Image();
+	img.onload = function () {
+		var result = (img.width > 0) && (img.height > 0);
+		callback(feature, result);
+	};
+	img.onerror = function () {
+		callback(feature, false);
+	};
+
+	img.src = 'data:image/webp;base64,' + kTestImages[feature];
+}
+
+function fallback(fature, result) {
+	if (result) {
+		document.getElementById('check').src = 'images/4.sm.webp';
+	} else {
+		document.getElementById('check').src = 'images/4.sm.jpg';
+	}
+}
+
+check_webp_feature('lossy', fallback);
+</script>
+
+external image<br/>
+1.sm.webp<br/>
+<img src="http://www.hohenlimburg.org/webpjs/1.sm.webp"><p/>
+
+webpjs<br/>
+2.sm.webp<br/>
+<img src="images/2.sm.webp"><p/>
+
+picture tag<br/>
+3.sm.webp<br/>
+<picture>
+	<source type="image/webp" srcset="images/3.sm.webp">
+	<img src="images/3.sm.jpg">
+</picture><p/>
+
+check webp feature<br/>
+4.sm.webp<br/>
+<img src="" id="check"><p/>
